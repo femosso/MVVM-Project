@@ -17,7 +17,7 @@ import com.example.mvvmproject.presenter.ProductsContract;
 import java.util.List;
 
 
-public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> implements ProductsContract.Actions {
+public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> implements ProductsContract {
 
     private Context mContext;
     private List<Product> mList;
@@ -57,11 +57,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         mList = products;
     }
 
-    @Override
-    public void openProduct(Product product) {
-        Toast.makeText(mContext, "Show product: " + product.name, Toast.LENGTH_LONG).show();
-    }
-
     class ViewHolder extends RecyclerView.ViewHolder {
         ProductItemBinding productItemBinding;
 
@@ -74,5 +69,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             productItemBinding.setVariable(BR.productModel, obj);
             productItemBinding.executePendingBindings();
         }
+    }
+
+    @Override
+    public void openProduct(Product product) {
+        Toast.makeText(mContext, "Show product: " + product.name, Toast.LENGTH_LONG).show();
     }
 }

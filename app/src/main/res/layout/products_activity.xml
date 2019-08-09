@@ -5,16 +5,22 @@
     <data>
 
         <variable
+            name="viewModel"
+            type="com.example.mvvmproject.view.ProductsActivityViewModel" />
+
+        <variable
             name="myAdapter"
             type="com.example.mvvmproject.view.ProductAdapter" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:onRefreshListener="@{() -> viewModel.onRefresh()}"
+        app:refreshing="@{viewModel.isLoading}">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+            android:id="@+id/products_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:adapter="@{myAdapter}"
@@ -24,6 +30,6 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </layout>

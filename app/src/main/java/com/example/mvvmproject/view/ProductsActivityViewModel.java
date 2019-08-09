@@ -1,26 +1,35 @@
 package com.example.mvvmproject.view;
 
-import android.app.Application;
-
-import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
+import androidx.databinding.ObservableBoolean;
 
 import com.example.mvvmproject.data.FetchDataService;
 import com.example.mvvmproject.data.RetrofitServiceImpl;
-import com.example.mvvmproject.data.model.Product;
+import com.example.mvvmproject.data.model.ProductSearchResult;
 
-import java.util.List;
+public class ProductsActivityViewModel {
 
-public class ProductsActivityViewModel extends AndroidViewModel {
+    public ObservableBoolean isLoading = new ObservableBoolean();
 
-    private  FetchDataService fetchDataService;
+    private FetchDataService fetchDataService;
+    private ProductAdapter mProductAdapter;
 
-    public ProductsActivityViewModel(Application application) {
-        super(application);
+    public ProductsActivityViewModel(ProductAdapter productAdapter) {
+        mProductAdapter = productAdapter;
         fetchDataService = new RetrofitServiceImpl();
     }
 
-    public LiveData<List<Product>> loadProducts() {
-        return fetchDataService.getProducts();
+    public void loadProducts() {
+        fetchDataService.getProducts(new FetchDataService.FetchDataCallback<ProductSearchResult>() {
+            @Override
+            public void onLoaded(ProductSearchResult data) {
+                isLoading.set(false);
+                mProductAdapter.updateData(data.products);
+            }
+        });
+    }
+
+    public void onRefresh() {
+        isLoading.set(true);
+        loadProducts();
     }
 }

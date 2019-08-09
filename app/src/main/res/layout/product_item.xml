@@ -11,7 +11,7 @@
 
         <variable
             name="productsContract"
-            type="com.example.mvvmproject.presenter.ProductsContract.Actions" />
+            type="com.example.mvvmproject.presenter.ProductsContract" />
     </data>
 
     <androidx.cardview.widget.CardView
