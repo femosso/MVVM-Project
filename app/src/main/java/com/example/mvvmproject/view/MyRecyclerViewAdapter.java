@@ -12,17 +12,19 @@ import com.example.mvvmproject.BR;
 import com.example.mvvmproject.R;
 import com.example.mvvmproject.data.model.Product;
 import com.example.mvvmproject.databinding.ProductItemBinding;
+import com.example.mvvmproject.presenter.ProductsContract;
+import com.example.mvvmproject.presenter.ProductsPresenter;
 
 import java.util.List;
 
 
-public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder> implements CustomClickListener {
+public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder> implements ProductsContract.Actions {
 
-    private List<Product> productList;
+    private List<Product> mList;
     private Context context;
 
     public MyRecyclerViewAdapter(List<Product> productList, Context ctx) {
-        this.productList = productList;
+        this.mList = productList;
         context = ctx;
     }
 
@@ -37,14 +39,33 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Product product = productList.get(position);
+        Product product = mList.get(position);
         holder.bind(product);
-        holder.productItemBinding.setItemClickListener(this);
+        holder.productItemBinding.setProductsContract(this);
     }
 
     @Override
     public int getItemCount() {
-        return productList.size();
+        return mList.size();
+    }
+
+    public void updateData(List<Product> products) {
+        setList(products);
+        notifyDataSetChanged();
+    }
+
+    private void setList(List<Product> products) {
+        mList = products;
+    }
+
+    @Override
+    public void loadProducts() {
+
+    }
+
+    @Override
+    public void openProduct(Product product) {
+        Toast.makeText(context, "You clicked " + product.name, Toast.LENGTH_LONG).show();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -57,12 +78,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
         public void bind(Object obj) {
             //productItemBinding.setViewModel(new ProductsActivityViewModel());
-            productItemBinding.setVariable(BR.product, obj);
+            productItemBinding.setVariable(BR.productModel, obj);
             productItemBinding.executePendingBindings();
         }
     }
 
-    public void cardClicked(Product f) {
-        Toast.makeText(context, "You clicked " + f.name, Toast.LENGTH_LONG).show();
-    }
 }

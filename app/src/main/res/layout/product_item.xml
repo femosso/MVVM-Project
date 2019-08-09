@@ -4,23 +4,19 @@
 
     <data>
 
-        <!--<variable
-            name="viewModel"
-            type="com.example.mvvmproject.view.ProductsActivityViewModel" />-->
-
         <variable
-            name="product"
+            name="productModel"
             type="com.example.mvvmproject.data.model.Product" />
 
         <variable
-            name="itemClickListener"
-            type="com.example.mvvmproject.view.CustomClickListener" />
+            name="productsContract"
+            type="com.example.mvvmproject.presenter.ProductsContract.Actions" />
     </data>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{() -> itemClickListener.cardClicked(product)}"
+        android:onClick="@{() -> productsContract.openProduct(productModel)}"
         app:cardUseCompatPadding="true">
 
         <LinearLayout
@@ -35,7 +31,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="9"
                 android:scaleType="centerCrop"
-                android:showImage="@{product.imageUrl}" />
+                android:showImage="@{productModel.imageUrl}" />
 
             <TextView
                 android:id="@+id/product_title"
@@ -43,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:padding="6dp"
-                android:text="@{product.name}" />
+                android:text="@{productModel.name}" />
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

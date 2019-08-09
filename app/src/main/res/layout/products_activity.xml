@@ -4,6 +4,9 @@
 
     <data>
 
+        <!--<variable
+    name="viewModel"
+    type="com.example.mvvmproject.view.ProductsActivityViewModel" />-->
         <variable
             name="myAdapter"
             type="com.example.mvvmproject.view.MyRecyclerViewAdapter" />
