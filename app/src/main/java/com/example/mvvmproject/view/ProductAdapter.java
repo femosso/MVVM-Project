@@ -14,22 +14,21 @@ import com.example.mvvmproject.data.model.Product;
 import com.example.mvvmproject.databinding.ProductItemBinding;
 import com.example.mvvmproject.presenter.ProductsContract;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
-public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ViewHolder> implements ProductsContract.Actions {
+public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> implements ProductsContract.Actions {
 
-    private List<Product> mList;
     private Context mContext;
+    private List<Product> mList;
 
-    public ProductListAdapter(Context ctx) {
-        mContext = ctx;
-        mList = new ArrayList<>();
+    public ProductAdapter(Context context, List<Product> products) {
+        mContext = context;
+        mList = products;
     }
 
     @Override
-    public ProductListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ProductAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ProductItemBinding binding = DataBindingUtil.inflate(
                 LayoutInflater.from(parent.getContext()),
                 R.layout.product_item, parent, false);
@@ -60,7 +59,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     @Override
     public void openProduct(Product product) {
-        Toast.makeText(mContext, "You clicked " + product.name, Toast.LENGTH_LONG).show();
+        Toast.makeText(mContext, "Show product: " + product.name, Toast.LENGTH_LONG).show();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

@@ -11,11 +11,12 @@ import com.example.mvvmproject.R;
 import com.example.mvvmproject.data.model.Product;
 import com.example.mvvmproject.databinding.ProductsActivityBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductsActivity extends AppCompatActivity {
     private ProductsActivityViewModel mProductsActivityViewModel;
-    private ProductListAdapter mProductListAdapter;
+    private ProductAdapter mProductAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +27,8 @@ public class ProductsActivity extends AppCompatActivity {
 
         mProductsActivityViewModel = ViewModelProviders.of(this).get(ProductsActivityViewModel.class);
 
-        mProductListAdapter = new ProductListAdapter(this);
-        productsActivityBinding.setMyAdapter(mProductListAdapter);
+        mProductAdapter = new ProductAdapter(this, new ArrayList<Product>());
+        productsActivityBinding.setMyAdapter(mProductAdapter);
 
         getAllProducts();
     }
@@ -36,7 +37,7 @@ public class ProductsActivity extends AppCompatActivity {
         mProductsActivityViewModel.loadProducts().observe(this, new Observer<List<Product>>() {
             @Override
             public void onChanged(List<Product> products) {
-                mProductListAdapter.updateData(products);
+                mProductAdapter.updateData(products);
             }
         });
     }
