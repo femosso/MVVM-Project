@@ -4,35 +4,40 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.example.mvvmproject.R;
 import com.example.mvvmproject.data.model.Product;
 import com.example.mvvmproject.databinding.ProductsActivityBinding;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class ProductsActivity extends AppCompatActivity {
-    private ProductsActivityBinding binding;
-    //private ProductsActivityViewModel viewModel;
+    private ProductsActivityViewModel mProductsActivityViewModel;
+    private ProductListAdapter mProductListAdapter;
 
-    private static ArrayList<Product> PRODUCTS = new ArrayList<Product>() {{
-        add(new Product("product 1", "thumbnail 1"));
-        add(new Product("product 2", "thumbnail 2"));
-        add(new Product("product 3", "thumbnail 3"));
-    }};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // instancia o viewModel
-        //viewModel = new ProductsActivityViewModel();
+        ProductsActivityBinding productsActivityBinding =
+                DataBindingUtil.setContentView(this, R.layout.products_activity);
 
-        // vincula a view ao viewModel
-        binding = DataBindingUtil.setContentView(this, R.layout.products_activity);
-        //binding.setViewModel(viewModel); // vincula o viewModel
-        //binding.executePendingBindings();
+        mProductsActivityViewModel = ViewModelProviders.of(this).get(ProductsActivityViewModel.class);
 
-        MyRecyclerViewAdapter myRecyclerViewAdapter = new MyRecyclerViewAdapter(PRODUCTS, this);
-        binding.setMyAdapter(myRecyclerViewAdapter);
+        mProductListAdapter = new ProductListAdapter(this);
+        productsActivityBinding.setMyAdapter(mProductListAdapter);
+
+        getAllProducts();
+    }
+
+    private void getAllProducts() {
+        mProductsActivityViewModel.loadProducts().observe(this, new Observer<List<Product>>() {
+            @Override
+            public void onChanged(List<Product> products) {
+                mProductListAdapter.updateData(products);
+            }
+        });
     }
 }

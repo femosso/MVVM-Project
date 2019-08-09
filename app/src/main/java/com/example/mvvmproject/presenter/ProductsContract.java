@@ -13,7 +13,6 @@ public interface ProductsContract {
     }
 
     interface Actions {
-        void loadProducts();
         void openProduct(Product product);
     }
 }

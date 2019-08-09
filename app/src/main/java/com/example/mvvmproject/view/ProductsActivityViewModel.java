@@ -1,27 +1,26 @@
 package com.example.mvvmproject.view;
 
-import android.os.Handler;
+import android.app.Application;
 
-import androidx.databinding.ObservableField;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 
-public class ProductsActivityViewModel {
+import com.example.mvvmproject.data.FetchDataService;
+import com.example.mvvmproject.data.RetrofitServiceImpl;
+import com.example.mvvmproject.data.model.Product;
 
-    public ObservableField<String> meuURL = new ObservableField<>();
+import java.util.List;
 
-    public ProductsActivityViewModel() {
+public class ProductsActivityViewModel extends AndroidViewModel {
+
+    private  FetchDataService fetchDataService;
+
+    public ProductsActivityViewModel(Application application) {
+        super(application);
+        fetchDataService = new RetrofitServiceImpl();
     }
 
-    // simula uma chamada na api
-    public void showImage() {
-
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                String url = "\"https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAkjAAAAJGE5NjA2ZDRhLTc5MDUtNDJkMy1hNGZiLTViYzQwMzVhYjMwYw.png\"";
-                meuURL.set(url);
-            }
-        }, 1500);
-
+    public LiveData<List<Product>> loadProducts() {
+        return fetchDataService.getProducts();
     }
 }

@@ -13,23 +13,23 @@ import com.example.mvvmproject.R;
 import com.example.mvvmproject.data.model.Product;
 import com.example.mvvmproject.databinding.ProductItemBinding;
 import com.example.mvvmproject.presenter.ProductsContract;
-import com.example.mvvmproject.presenter.ProductsPresenter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
-public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder> implements ProductsContract.Actions {
+public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ViewHolder> implements ProductsContract.Actions {
 
     private List<Product> mList;
-    private Context context;
+    private Context mContext;
 
-    public MyRecyclerViewAdapter(List<Product> productList, Context ctx) {
-        this.mList = productList;
-        context = ctx;
+    public ProductListAdapter(Context ctx) {
+        mContext = ctx;
+        mList = new ArrayList<>();
     }
 
     @Override
-    public MyRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ProductListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ProductItemBinding binding = DataBindingUtil.inflate(
                 LayoutInflater.from(parent.getContext()),
                 R.layout.product_item, parent, false);
@@ -59,28 +59,21 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     }
 
     @Override
-    public void loadProducts() {
-
-    }
-
-    @Override
     public void openProduct(Product product) {
-        Toast.makeText(context, "You clicked " + product.name, Toast.LENGTH_LONG).show();
+        Toast.makeText(mContext, "You clicked " + product.name, Toast.LENGTH_LONG).show();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public ProductItemBinding productItemBinding;
+    class ViewHolder extends RecyclerView.ViewHolder {
+        ProductItemBinding productItemBinding;
 
-        public ViewHolder(ProductItemBinding productItemBinding) {
+        ViewHolder(ProductItemBinding productItemBinding) {
             super(productItemBinding.getRoot());
             this.productItemBinding = productItemBinding;
         }
 
-        public void bind(Object obj) {
-            //productItemBinding.setViewModel(new ProductsActivityViewModel());
+        void bind(Object obj) {
             productItemBinding.setVariable(BR.productModel, obj);
             productItemBinding.executePendingBindings();
         }
     }
-
 }

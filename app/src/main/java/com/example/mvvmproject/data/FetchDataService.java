@@ -1,12 +1,11 @@
 package com.example.mvvmproject.data;
 
-import com.example.mvvmproject.data.model.ProductSearchResult;
+import androidx.lifecycle.MutableLiveData;
+
+import com.example.mvvmproject.data.model.Product;
+
+import java.util.List;
 
 public interface FetchDataService {
-
-    interface FetchDataCallback<T> {
-        void onLoaded(T data);
-    }
-
-    void getProducts(FetchDataCallback<ProductSearchResult> callback);
+    MutableLiveData<List<Product>> getProducts();
 }
