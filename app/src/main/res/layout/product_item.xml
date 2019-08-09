@@ -1,28 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="200dp"
-    android:layout_height="200dp"
-    android:layout_margin="8dp">
+    <data>
 
-    <LinearLayout
+        <!--<variable
+            name="viewModel"
+            type="com.example.mvvmproject.view.ProductsActivityViewModel" />-->
+
+        <variable
+            name="product"
+            type="com.example.mvvmproject.data.model.Product" />
+
+        <variable
+            name="itemClickListener"
+            type="com.example.mvvmproject.view.CustomClickListener" />
+    </data>
+
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> itemClickListener.cardClicked(product)}"
+        app:cardUseCompatPadding="true">
 
-        <ImageView
-            android:id="@+id/product_thumbnail"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="9"
-            android:scaleType="centerCrop" />
-
-        <TextView
-            android:id="@+id/product_title"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:padding="6dp" />
-    </LinearLayout>
+            android:layout_margin="8dp"
+            android:orientation="vertical">
 
-</androidx.cardview.widget.CardView>
+            <ImageView
+                android:id="@+id/product_thumbnail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="9"
+                android:scaleType="centerCrop"
+                android:showImage="@{product.imageUrl}" />
+
+            <TextView
+                android:id="@+id/product_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="6dp"
+                android:text="@{product.name}" />
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</layout>
